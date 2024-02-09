@@ -1,5 +1,5 @@
 const inquirer = require('inquirer');
-const { Department, Role, Employee } = require('./models');
+const { Department, Role, Employee } = require('./models/models');
 
 async function init() {
     const { choice } = await inquirer.prompt({
@@ -45,16 +45,24 @@ async function init() {
 async function viewAllDepartments() {
     try {
       const departments = await Department.findAll();
-      console.table(departments);
+      const formattedDepartments = departments.map(department => ({
+        name: department.department_name
+      }));
+      console.table(formattedDepartments);
     } catch (error) {
       console.error('Error viewing departments:', error);
     }
-  }
+}
 
 async function viewAllRoles() {
     try {
       const roles = await Role.findAll();
-      console.table(roles);
+      const formattedRoles = roles.map(role => ({
+        title: role.title,
+        salary: role.salary,
+        department: role.department_id,
+      }));
+      console.table(formattedRoles);
     } catch (error) {
       console.error('Error viewing roles:', error);
     }
@@ -63,7 +71,12 @@ async function viewAllRoles() {
 async function viewAllEmployees() {
     try {
       const employees = await Employee.findAll();
-      console.table(employees);
+      const formattedEmployees = employees.map(employee => ({
+        first: employee.first_name,
+        last: employee.last_name,
+        role: employee.role_id,
+      }));
+      console.table(formattedEmployees);
     } catch (error) {
       console.error('Error viewing employees:', error);
     }
@@ -86,7 +99,7 @@ async function addDepartment() {
 
 async function addRole() {
     try {
-        const { title, salary } = await inquirer.prompt([
+        const { title, salary, department_id } = await inquirer.prompt([
           {
             type: 'input',
             name: 'title',
@@ -96,10 +109,15 @@ async function addRole() {
             type: 'input',
             name:'salary',
             message: 'Enter the annual salary of the role:',
+          },
+          {
+            type: 'input',
+            name:'department_id',
+            message: 'Enter the id of the department:',
           }
         ]);
     
-        await Role.create({ title, salary });
+        await Role.create({ title, salary, department_id });
         console.log('Role added successfully!');
     } catch (error) {
         console.error('Error adding role:', error);
@@ -144,7 +162,7 @@ async function updateEmployeeRole() {
       message: 'Select employee:',
       choices: employees.map(employee => ({
         name: `${employee.first_name} ${employee.last_name}`,
-        value: employee.id,
+        value: employee.employee_id,
       })),
     });
 
@@ -156,7 +174,7 @@ async function updateEmployeeRole() {
     });
 
     await Employee.update({ role_id: roleId }, {
-      where: { id: employeeId },
+      where: { employee_id: employeeId },
     });
 
     console.log('Employee role updated successfully!');
@@ -170,7 +188,7 @@ async function getRoleChoices() {
     const roles = await Role.findAll();
     return roles.map(role => ({
       name: role.title,
-      value: role.id,
+      value: role.role_id,
     }));
   } catch (error) {
     console.error('Error fetching roles:', error);
