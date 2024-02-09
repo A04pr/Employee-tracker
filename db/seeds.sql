@@ -13,13 +13,13 @@ VALUES ("Lift Operator", 40000),
        ("Nurse", 60000),
        ("Doctor", 120000);
 
-INSERT INTO employee (first_name, last_name)
-VALUES ("Tracy", "Calvins"),
-       ("Kalli", "Cera"),
-       ("Kevin", "Star"),
-       ("Maya", "Viselli"),
-       ("Boris", "Konev"),
-       ("Tyler", "Steinkamp"),
-       ("Sien", "Ossef"),
-       ("Zarayah", "Jordan");
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUES ("Tracy", "Calvins", 6, NULL),
+       ("Kalli", "Cera", 1, NULL),
+       ("Kevin", "Star", 2, NULL),
+       ("Maya", "Viselli", 3, NULL),
+       ("Boris", "Konev", 5, NULL),
+       ("Tyler", "Steinkamp", 4, NULL),
+       ("Sien", "Ossef", 6, NULL),
+       ("Zarayah", "Jordan", 7, NULL);
        
