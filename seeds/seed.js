@@ -1,5 +1,5 @@
 const sequelize = require('../config/connections');
-const seedDepartment = require('./deptartmentData');
+const seedDepartment = require('./departmentData');
 const seedRole = require('./roleData');
 const seedEmployee = require('./employeeData');
 

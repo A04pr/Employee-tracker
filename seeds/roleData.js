@@ -1,4 +1,4 @@
-const { Role } = require('../models');
+const { Role } = require('../models/models');
 
 const roleData = [
     {
