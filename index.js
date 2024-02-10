@@ -14,6 +14,9 @@ async function init() {
         'Add a role',
         'Add an employee',
         'Update an employee role',
+        'Delete a department',
+        'Delete a role',
+        'Delete an employee',
       ],
     });
   
@@ -38,6 +41,15 @@ async function init() {
         break;
       case 'Update an employee role':
         await updateEmployeeRole();
+        break;
+      case 'Delete a department':
+        await deleteDepartment();
+        break;
+      case 'Delete a role':
+        await deleteRole();
+        break;
+      case 'Delete an employee':
+        await deleteEmployee();
         break;
     }
   }
@@ -196,4 +208,101 @@ async function getRoleChoices() {
   }
 }
 
+async function addDepartment() {
+  try {
+    const { department_name } = await inquirer.prompt({
+      type: 'input',
+      name: 'department_name',
+      message: 'Enter the name of the department:',
+    });
+
+    await Department.create({ department_name });
+    console.log('Department added successfully!');
+  } catch (error) {
+    console.error('Error adding department:', error);
+  }
+}
+
+async function deleteDepartment() {
+  try {
+    const departments = await Department.findAll();
+    const departmentChoices = departments.map(department => ({
+      name: department.department_name,
+      value: department.department_id,
+    }));
+
+    const { departmentId } = await inquirer.prompt({
+      type: 'list',
+      name: 'departmentId',
+      message: 'Select the department to delete:',
+      choices: departmentChoices,
+    });
+
+    await Department.destroy({
+      where: {
+        department_id: departmentId
+      }
+    });
+
+    console.log('Department deleted successfully!');
+  } catch (error) {
+    console.error('Error deleting department:', error);
+  }
+}
+
+async function deleteRole() {
+  try {
+    const roles = await Role.findAll();
+    const roleChoices = roles.map(role => ({
+      name: role.title,
+      value: role.role_id,
+    }));
+
+    const { roleId } = await inquirer.prompt({
+      type: 'list',
+      name: 'roleId',
+      message: 'Select the role to delete:',
+      choices: roleChoices,
+    });
+
+    await Role.destroy({
+      where: {
+        role_id: roleId
+      }
+    });
+
+    console.log('Role deleted successfully!');
+  } catch (error) {
+    console.error('Error deleting role:', error);
+  }
+
+}
+
+async function deleteEmployee() {
+  try {
+    const employees = await Employee.findAll();
+    const employeeChoices = employees.map(employee => ({
+      name: employee.first_name + ' ' + employee.last_name,
+      value: employee.employee_id,
+    }));
+
+    const { employeeId } = await inquirer.prompt({
+      type: 'list',
+      name: 'employeeId',
+      message: 'Select the employee to delete:',
+      choices: employeeChoices,
+    });
+
+    await Employee.destroy({
+      where: {
+        employee_id: employeeId
+      }
+    });
+
+    console.log('Employee deleted successfully!');
+  } catch (error) {
+    console.error('Error deleting employee:', error);
+  }
+
+}
 init();
