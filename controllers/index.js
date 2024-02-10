@@ -7,6 +7,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
+// Get for departments
 app.get('/api/departments', async (req, res) => {
   try {
     const departments = await Department.findAll();
@@ -17,6 +18,7 @@ app.get('/api/departments', async (req, res) => {
   }
 });
 
+// Get for roles
 app.get('/api/roles', async (req, res) => {
   try {
     const roles = await Role.findAll();
@@ -27,6 +29,7 @@ app.get('/api/roles', async (req, res) => {
   }
 });
 
+// Get for employees
 app.get('/api/employees', async (req, res) => {
   try {
     const employees = await Employee.findAll();
@@ -37,6 +40,7 @@ app.get('/api/employees', async (req, res) => {
   }
 });
 
+// Logic for adding a new department
 app.post('/api/departments', async (req, res) => {
   const { department_name } = req.body;
   try {
@@ -48,6 +52,7 @@ app.post('/api/departments', async (req, res) => {
   }
 });
 
+// Logic for adding a new role
 app.post('/api/roles', async (req, res) => {
   const { title, salary, department_id } = req.body;
   try {
@@ -59,6 +64,7 @@ app.post('/api/roles', async (req, res) => {
   }
 });
 
+// Logic for adding a new employee
 app.post('/api/employees', async (req, res) => {
   const { first_name, last_name, role_id, manager_id } = req.body;
   try {

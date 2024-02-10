@@ -54,6 +54,7 @@ async function init() {
     }
   }
 
+  // Shows all departments with their name and id
 async function viewAllDepartments() {
     try {
       const departments = await Department.findAll();
@@ -66,6 +67,7 @@ async function viewAllDepartments() {
     }
 }
 
+  // Shows all roles with their name, id, and the department they belong to
 async function viewAllRoles() {
     try {
       const roles = await Role.findAll();
@@ -80,6 +82,7 @@ async function viewAllRoles() {
     }
   }
 
+    // Shows all employees with their first and last name, id, and role
 async function viewAllEmployees() {
     try {
       const employees = await Employee.findAll();
@@ -94,6 +97,7 @@ async function viewAllEmployees() {
     }
   }
 
+    // Adds a department after recieving an input for department name
 async function addDepartment() {
   try {
     const { department_name } = await inquirer.prompt({
@@ -109,6 +113,7 @@ async function addDepartment() {
   }
 }
 
+    // Adds a role after recieving an input for the title, salary, and department id
 async function addRole() {
     try {
         const { title, salary, department_id } = await inquirer.prompt([
@@ -136,6 +141,7 @@ async function addRole() {
     }
 }
 
+    // Adds an employee after recieving an input for first name, last name, and role.
 async function addEmployee() {
   try {
     const employeeDetails = await inquirer.prompt([
@@ -164,6 +170,7 @@ async function addEmployee() {
   }
 }
 
+// Changes an employee role
 async function updateEmployeeRole() {
   try {
     const employees = await Employee.findAll();
@@ -195,6 +202,7 @@ async function updateEmployeeRole() {
   }
 }
 
+// Creates a list of roles currently in the database
 async function getRoleChoices() {
   try {
     const roles = await Role.findAll();
@@ -208,21 +216,7 @@ async function getRoleChoices() {
   }
 }
 
-async function addDepartment() {
-  try {
-    const { department_name } = await inquirer.prompt({
-      type: 'input',
-      name: 'department_name',
-      message: 'Enter the name of the department:',
-    });
-
-    await Department.create({ department_name });
-    console.log('Department added successfully!');
-  } catch (error) {
-    console.error('Error adding department:', error);
-  }
-}
-
+// Deletes a department
 async function deleteDepartment() {
   try {
     const departments = await Department.findAll();
@@ -250,6 +244,7 @@ async function deleteDepartment() {
   }
 }
 
+// Deletes a role
 async function deleteRole() {
   try {
     const roles = await Role.findAll();
@@ -278,6 +273,7 @@ async function deleteRole() {
 
 }
 
+// Deletes an employee
 async function deleteEmployee() {
   try {
     const employees = await Employee.findAll();
